@@ -1,7 +1,7 @@
 # A1 - Piraten Karpen
 
-  * Author: < You name here >
-  * Email: < Your email here >
+  * Author: Ahren Chen
+  * Email: chena125@mcmaster.ca
 
 ## Build and Execution
 
