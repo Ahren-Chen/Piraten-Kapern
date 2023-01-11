@@ -11,5 +11,15 @@ public class Dice {
         Random bag = new Random();
         return Faces.values()[bag.nextInt(howManyFaces)];
     }
+
+    public Faces[] roll8() {
+        Faces[] rolledDice = new Faces[8];
+        for (int i = 0; i < 8; i++) {
+            rolledDice[i] = roll();
+            //System.out.print("DEBUG: " + rolledDice[i] + " ");
+        }
+
+        return rolledDice;
+    }
     
 }

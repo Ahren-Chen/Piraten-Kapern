@@ -9,3 +9,5 @@ Jan 10 2023: I have started to work on step 2 and have confirmed that the dice r
 is currently working. I also updated the README file to better fit my goals for step 2 with
 the backlog as well as the definition of done. I finished the feature to roll 8 dice
 at the same time and had it print out the results.
+
+Jan 11 2023: I fixed my code to make it a method in the pk package rather than in the PiratenKarpen file.
