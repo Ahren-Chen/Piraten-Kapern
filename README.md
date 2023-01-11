@@ -34,6 +34,6 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | x   | F03 | Set number of games as 42  |  S  | 01/10/23 |
 | x   | F04 | end of turn with three skulls | S | 01/11/23 |
 | x   | F05 | Player keeping random dice at their turn | S | 01/11/23 | 
-| x   | F06 | Score points: multiply number of gold coins & diamonds by 100 | S | 01/11/23 | 
+| x   | F06 | Score points: multiply number of gold coins & diamonds by 100 | D | 01/11/23 | 01/11/23 |
 | ... | ... | ... |
 
