@@ -1,9 +1,10 @@
 package pk;
 
 import java.util.Random;
+import java.util.random.RandomGenerator;
 
 public class Player {
-    private int play() {
+    public int play() {
         Dice myDice = new Dice();
         Faces[] rolledDice = myDice.roll8();
         while (true) {
@@ -18,7 +19,10 @@ public class Player {
             }
 
             for (int roll = 0; roll < 8; roll++) {
-                //randomize rolls and which one to keep
+                Random bag = new Random();
+                if (bag.nextInt(2) == 1) {
+                    rolledDice[roll] = myDice.roll();
+                }
             }
         }
 

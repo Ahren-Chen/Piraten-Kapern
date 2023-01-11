@@ -13,6 +13,7 @@ public class PiratenKarpen {
         //Types of rolls are [MONKEY, PARROT, GOLD, DIAMOND, SABER, SKULL] in that order starting from enum 0
         Dice myDice = new Dice();
         System.out.println(Arrays.toString(myDice.roll8()));
+        playRandom(1);
         System.out.println();
         System.out.println("That's all folks!");
     }
@@ -20,6 +21,8 @@ public class PiratenKarpen {
     public static int[] playRandom(int games) {
         Player player1 = new Player();
         Player player2 = new Player();
+        System.out.println("DEBUG: " + player1.play());
+
         return null;
     }
 }
