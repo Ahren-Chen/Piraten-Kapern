@@ -14,3 +14,7 @@ Jan 11 2023:
 * I fixed my code to make it a method in the pk package rather than in the PiratenKarpen file.
 * Changed the backlog to better match the current step requirements.
 * Started working on the other features.
+* Finished the base setup to play a singular game and the score per player.
+* Finished simulating 42 games, which completes MVP's 3,4,5.
+* Able to print out the percent of wins for each player, finishing step 2
+* Cleanup the program by commenting and removing unnecessary debug prints
