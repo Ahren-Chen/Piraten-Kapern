@@ -21,5 +21,4 @@ public class Dice {
 
         return rolledDice;
     }
-    
 }

@@ -1,4 +1,5 @@
 import pk.Dice;
+import pk.Player;
 
 import java.util.Arrays;
 
@@ -15,5 +16,10 @@ public class PiratenKarpen {
         System.out.println();
         System.out.println("That's all folks!");
     }
-    
+
+    public static int[] playRandom(int games) {
+        Player player1 = new Player();
+        Player player2 = new Player();
+        return null;
+    }
 }
