@@ -1,23 +1,20 @@
-import pk.Dice;
 import pk.Player;
 
-import java.util.Arrays;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PiratenKarpen {
 
+    private static final Logger logger = LogManager.getLogger(PiratenKarpen.class);
     public static void main(String[] args) {
         System.out.println("Welcome to Piraten Karpen Simulator!");
-        System.out.println("I'm rolling a dice");
 
-        //Here I will roll 8 dice and store them in an array called "rolledDice"
         //Types of rolls are [MONKEY, PARROT, GOLD, DIAMOND, SABER, SKULL] in that order starting from enum 0
-        Dice myDice = new Dice();
 
         double[] winPercent = playRandom(42);
-        System.out.printf("Player 1 wins: %.2f\nPlayer 2 wins: %.2f", winPercent[0] * 100, winPercent[1] * 100);
+        System.out.printf("Player 1 wins: %.2f\nPlayer 2 wins: %.2f\n", winPercent[0] * 100, winPercent[1] * 100);
 
-        System.out.println();
-        System.out.println("That's all folks!");
+        logger.warn("Completed game");
     }
 
     public static double[] playRandom(int games) {
