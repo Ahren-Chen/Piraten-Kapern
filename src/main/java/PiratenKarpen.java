@@ -7,6 +7,9 @@ public class PiratenKarpen {
 
     private static final Logger logger = LogManager.getLogger(PiratenKarpen.class);
     public static void main(String[] args) {
+        for (String s: args) {
+            System.out.println(s);
+        }
         System.out.println("Welcome to Piraten Karpen Simulator!");
 
         //Types of rolls are [MONKEY, PARROT, GOLD, DIAMOND, SABER, SKULL] in that order starting from enum 0
@@ -14,7 +17,7 @@ public class PiratenKarpen {
         double[] winPercent = playRandom(42);
         System.out.printf("Player 1 wins: %.2f\nPlayer 2 wins: %.2f\n", winPercent[0] * 100, winPercent[1] * 100);
 
-        logger.warn("Completed game");
+        logger.error("Completed game");
     }
 
     public static double[] playRandom(int games) {
