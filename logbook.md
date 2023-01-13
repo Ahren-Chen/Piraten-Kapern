@@ -21,3 +21,4 @@ Jan 11 2023:
 
 Jan 13 2023:
 * Created a logger to replace print statements while debugging, but confused on how step 3 requires me to make a trace mode.
+* Learned how to input command line arguments using maven, and updated the README with a new command.
