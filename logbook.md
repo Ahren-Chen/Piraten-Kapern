@@ -18,3 +18,6 @@ Jan 11 2023:
 * Finished simulating 42 games, which completes MVP's 3,4,5.
 * Able to print out the percent of wins for each player, finishing step 2
 * Cleanup the program by commenting and removing unnecessary debug prints
+
+Jan 13 2023:
+* Created a logger to replace print statements while debugging, but confused on how step 3 requires me to make a trace mode.
