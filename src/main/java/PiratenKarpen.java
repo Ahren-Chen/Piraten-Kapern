@@ -23,16 +23,16 @@ public class PiratenKarpen {
             logger.error("Incorrect usage. Please enter input argument 'trace' or 'normal'");
             return;
         }
+        logger.info("Game starts: ");
         System.out.println("Welcome to Piraten Karpen Simulator!");
 
         //Types of rolls are [MONKEY, PARROT, GOLD, DIAMOND, SABER, SKULL] in that order starting from enum 0
 
-        double[] winPercent = playRandom(2);
+        logger.info("Begin to play 42 games");
+        double[] winPercent = playRandom(42);
         System.out.printf("Player 1 wins: %.2f\nPlayer 2 wins: %.2f\n", winPercent[0] * 100, winPercent[1] * 100);
 
         logger.info("Completed game");
-        logger.trace("Test");
-        logger.error("Test");
     }
 
     public static double[] playRandom(int games) {
@@ -63,6 +63,8 @@ public class PiratenKarpen {
             else if (score2 > score1) {
                 player2Wins++;
             }
+            logger.trace("Player 1 Score: " + score1 + ", Wins: " + player1Wins);
+            logger.trace("Player 2 Score: " + score2 + ", Wins: " + player2Wins);
         }
 
         //Return an array with the percent of wins for each player as {player1, player2}

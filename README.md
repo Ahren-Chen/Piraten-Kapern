@@ -37,5 +37,5 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | x   | F04 | end of turn with three or more skulls | D | 01/11/23 | 01/17/23 |
 | x   | F05 | Player keeping random dice at their turn | D | 01/11/23 | 01/17/23 |
 | x   | F06 | Score points: multiply number of gold coins & diamonds by 100 | D | 01/11/23 | 01/17/23 |
-| x   | F07 | Add tracers instead of print statements | S | 01/17/23 | 01/--/23 |
+| x   | F07 | Add tracers instead of print statements | D | 01/17/23 | 01/17/23 |
 | x   | F07 | Allow users to choose whether they want to see the project in trace mode or not based on input arguments | D | 01/17/23 | 01/17/23 |

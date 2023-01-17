@@ -1,10 +1,14 @@
 package pk;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Arrays;
 import java.util.Random;
-import java.util.random.RandomGenerator;
 
 public class Player {
+
+    private static final Logger logger = LogManager.getLogger(Player.class);
     public int playRandom() {
         //This method will play a game with the strategy of randomly rolling dice
 
@@ -12,6 +16,7 @@ public class Player {
         Dice myDice = new Dice();
         Faces[] rolledDice = myDice.roll8();
         Random bag = new Random();
+        logger.debug("Initial roll: " + Arrays.toString(rolledDice));
 
         //Create a variable to store the number of skulls that exist in the rolls
         int skullCount = 0;
@@ -46,6 +51,8 @@ public class Player {
             }
         }
 
+        logger.debug("Final rolls: " + Arrays.toString(rolledDice));
+
         //Return the score of the player based on the current dice rolls
         return calculateScore(rolledDice, skullCount);
     }
@@ -65,7 +72,7 @@ public class Player {
                 score += 100;
             }
         }
-
+        logger.debug("Score: " + score);
         return score;
     }
 }
