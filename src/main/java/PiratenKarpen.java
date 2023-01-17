@@ -14,7 +14,7 @@ public class PiratenKarpen {
 
         //Types of rolls are [MONKEY, PARROT, GOLD, DIAMOND, SABER, SKULL] in that order starting from enum 0
 
-        double[] winPercent = playRandom(42);
+        double[] winPercent = playRandom(2);
         System.out.printf("Player 1 wins: %.2f\nPlayer 2 wins: %.2f\n", winPercent[0] * 100, winPercent[1] * 100);
 
         logger.error("Completed game");
@@ -32,8 +32,14 @@ public class PiratenKarpen {
         //Loop through the number of games the user wants to simulate
         for (int game = 0; game < games; game++) {
             //Create variables for calculating the score that is returned from the player playing
-            int score1 = player1.playRandom();
-            int score2 = player2.playRandom();
+            int score1 = 0;
+            int score2 = 0;
+
+            //Have a loop that keeps playing the game so long as both players have not yet reached 6000 points
+            while (score1 < 6000 && score2 < 6000) {
+                score1 += player1.playRandom();
+                score2 += player2.playRandom();
+            }
 
             //Based on what score is bigger, we add a win to the respective player. If the score is equal, no player wins
             if (score1 > score2) {

@@ -22,3 +22,9 @@ Jan 11 2023:
 Jan 13 2023:
 * Created a logger to replace print statements while debugging, but confused on how step 3 requires me to make a trace mode.
 * Learned how to input command line arguments using maven, and updated the README with a new command.
+
+Jan 17 2023:
+* I learned that I did the game and understood step 2 wrong. Today I will try to finish the completed business logic for step 2.
+* I fixed the game, so that the game only ends if a player reaches 6000 or more points. 
+* Each turn, a player has a 50% chance to choose to reroll any dice at all
+* They will also choose with 50% chance to reroll any dice that is not skulls should they choose to reroll
