@@ -28,3 +28,5 @@ Jan 17 2023:
 * I fixed the game, so that the game only ends if a player reaches 6000 or more points. 
 * Each turn, a player has a 50% chance to choose to reroll any dice at all
 * They will also choose with 50% chance to reroll any dice that is not skulls should they choose to reroll
+* Completed logger tutorial and successfully tested it in my code.
+* Added the feature where the user can choose to 

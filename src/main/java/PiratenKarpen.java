@@ -1,14 +1,27 @@
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.core.config.Configurator;
 import pk.Player;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Objects;
+
 public class PiratenKarpen {
 
     private static final Logger logger = LogManager.getLogger(PiratenKarpen.class);
     public static void main(String[] args) {
-        for (String s: args) {
-            System.out.println(s);
+        if (args.length != 1) {
+            logger.error("Incorrect input arguments. Please enter enter input argument 'trace' or 'normal'");
+            return;
+        }
+        if (Objects.equals(args[0], "normal")) {
+            Logger logger = LogManager.getRootLogger();
+            Configurator.setAllLevels(logger.getName(), Level.getLevel("ERROR"));
+        } else if (!Objects.equals(args[0], "trace")){
+            logger.error("Incorrect usage. Please enter input argument 'trace' or 'normal'");
+            return;
         }
         System.out.println("Welcome to Piraten Karpen Simulator!");
 
@@ -17,7 +30,9 @@ public class PiratenKarpen {
         double[] winPercent = playRandom(2);
         System.out.printf("Player 1 wins: %.2f\nPlayer 2 wins: %.2f\n", winPercent[0] * 100, winPercent[1] * 100);
 
-        logger.error("Completed game");
+        logger.info("Completed game");
+        logger.trace("Test");
+        logger.error("Test");
     }
 
     public static double[] playRandom(int games) {
