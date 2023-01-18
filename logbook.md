@@ -34,3 +34,4 @@ Jan 17 2023:
 
 Jan 18 2023:
 * Started on feature 9 where each player if they choose to reroll, must reroll at least 2 die.
+* Time to refactor the code and reorganize, so that my code is not placed in the main PiratenKarpen file.
