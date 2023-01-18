@@ -30,17 +30,24 @@ public class Player {
 
         //Keep looping and playing until 3 or more skulls are rolled
         while (skullCount < 3) {
+            int rerolled = 0;
 
             if (bag.nextInt(2) == 1) {
                 //This loop will go through each dice and randomly choose whether to keep it or not as long as it is not a skull
                 for (int roll = 0; roll < 8; roll++) {
-                    //If it has chosen to re-roll the dice, replace that dice roll with a new one so long as the dice is not a skull
-                    if (bag.nextInt(2) == 1 && rolledDice[roll] != Faces.SKULL) {
-                        rolledDice[roll] = myDice.roll();
+                    if (rolledDice[roll] != Faces.SKULL) {
+                        if (rerolled < 2) {
+                            rolledDice[roll] = myDice.roll();
+                            rerolled++;
+                        }
+                        //If it has chosen to re-roll the dice, replace that dice roll with a new one so long as the dice is not a skull
+                        else if (bag.nextInt(2) == 1) {
+                            rolledDice[roll] = myDice.roll();
 
-                        //If the newly rolled dice is a skull, add it to the skull count
-                        if (rolledDice[roll] == Faces.SKULL) {
-                            skullCount++;
+                            //If the newly rolled dice is a skull, add it to the skull count
+                            if (rolledDice[roll] == Faces.SKULL) {
+                                skullCount++;
+                            }
                         }
                     }
                 }
