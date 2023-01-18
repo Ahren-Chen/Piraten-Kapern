@@ -31,3 +31,6 @@ Jan 17 2023:
 * Completed logger tutorial and successfully tested it in my code.
 * Added the feature where the user can choose to display the logging information or not
 * Added more logging statements to my code
+
+Jan 18 2023:
+* Started on feature 9 where each player if they choose to reroll, must reroll at least 2 die.

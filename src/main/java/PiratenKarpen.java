@@ -35,7 +35,7 @@ public class PiratenKarpen {
         logger.info("Completed game");
     }
 
-    public static double[] playRandom(int games) {
+    public static double[] playRandom(int games) {      //MUST MOVE TO SEPERATE CLASS CUZ NO BUSINESS LOGIC HEREEEEEEEEEEEEEE
         //Create 2 players to play the game with the same strategy
         Player player1 = new Player();
         Player player2 = new Player();
