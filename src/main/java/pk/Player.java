@@ -4,7 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Player {
 
@@ -56,11 +58,12 @@ public class Player {
 
         logger.debug("Final rolls: " + Arrays.toString(rolledDice));
 
+        Map<Object, Long> mapRoll = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
         //Return the score of the player based on the current dice rolls
-        return calculateScore(rolledDice, skullCount);
+        return calculateScore(mapRoll, skullCount);
     }
 
-    private static int calculateScore(Faces[] rolledDice, int skullCount) {
+    private static int calculateScore(Map<Object, Long> rolledDice, int skullCount) {
         //This method will calculate the score of a player based on what rolls they currently have.
         if (skullCount >= 3) {
             return 0;
@@ -69,12 +72,14 @@ public class Player {
         //This variable will record the score of the player
         int score = 0;
 
-        //This loop goes through each roll in the recorded rolls, and if the roll is a diamond or a gold coin, we add 100 points to the score
-        for (Faces roll: rolledDice) {
-            if (roll == Faces.DIAMOND || roll == Faces.GOLD) {
-                score += 100;
-            }
+        //The score is based on how many gold coins and diamonds the player has rolled
+        if (rolledDice.containsKey(Faces.GOLD)) {
+            score += rolledDice.get(Faces.GOLD) * 100;
         }
+        if (rolledDice.containsKey(Faces.DIAMOND)) {
+            score += rolledDice.get(Faces.DIAMOND) * 100;
+        }
+
         logger.debug("Score: " + score);
         return score;
     }
