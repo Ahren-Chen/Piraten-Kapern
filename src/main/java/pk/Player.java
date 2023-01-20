@@ -82,11 +82,12 @@ public class Player {
         int score = 0;
 
         //The score is based on how many gold coins and diamonds the player has rolled
-        if (rolledDice.containsKey(Faces.GOLD)) {
-            score += rolledDice.get(Faces.GOLD) * 100;
-        }
-        if (rolledDice.containsKey(Faces.DIAMOND)) {
-            score += rolledDice.get(Faces.DIAMOND) * 100;
+        score += (rolledDice.get(Faces.GOLD) + rolledDice.get(Faces.DIAMOND)) * 100;
+
+        for (Faces roll: Faces.values()) {
+            if (rolledDice.get(roll) == 3) {
+                score += 100;
+            }
         }
 
         logger.debug("Score: " + score);

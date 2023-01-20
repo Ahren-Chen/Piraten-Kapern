@@ -42,3 +42,4 @@ Jan 20 2023:
 * Modified where I create the players to support encapsulation.
 * Modified how to calculate score based on a map of each face to their occurance in the rolls.
 * Optimized even further how the players reroll by using maps in preparation for step 4. Version step3.2.
+* Completed F11 by implementing scoring 3 of a kind.
