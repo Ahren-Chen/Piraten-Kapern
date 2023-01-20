@@ -42,3 +42,8 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | x   | F07 | Add tracers instead of print statements | D | 01/17/23 | 01/17/23 |
 | x   | F08 | Allow users to choose whether they want to see the project in trace mode or not based on input arguments | D | 01/17/23 | 01/17/23 |
 | x   | F09 | When rerolling, players must reroll at least 2 die | D | 01/18/23 | 01/18/23 |
+| x   | F10 | Allow users to choose what strategy they want each player to use | S | 01/20/23 | 01/--/23 |
+| x   | F11 | Implement point scoring for 3 of a kind | S | 01/20/23 | 01/--/23 |
+| x   | F12 | Implement point scoring for the rest of the combos | B(F11) | 01/--/23 | 01/--/23 |
+| x   | F13 | Implement full chest scoring combo | B(F12) | 01/--/23 | 01/--/23 |
+| x   | F14 | Have the player roll dice until they hit at least 3 of a kind | S | 01/20/23 | 01/--/23 |
