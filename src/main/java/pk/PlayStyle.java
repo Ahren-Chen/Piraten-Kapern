@@ -16,9 +16,10 @@ public class PlayStyle {
             //Create variables for calculating the score that is returned from the player playing
             int score1 = 0;
             int score2 = 0;
+            int winningScore = 6000;
 
             //Have a loop that keeps playing the game so long as both players have not yet reached 6000 points
-            while (score1 < 6000 && score2 < 6000) {
+            while (score1 < winningScore && score2 < winningScore) {
                 score1 += player1.playRandom();
                 score2 += player2.playRandom();
             }

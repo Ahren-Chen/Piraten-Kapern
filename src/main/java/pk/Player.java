@@ -34,7 +34,7 @@ public class Player {
 
             if (bag.nextInt(2) == 1) {
                 //This loop will go through each dice and randomly choose whether to keep it or not as long as it is not a skull
-                for (int roll = 0; roll < 8; roll++) {
+                for (int roll = 0; roll < rolledDice.length; roll++) {
                     if (rolledDice[roll] != Faces.SKULL) {
                         //If it has chosen to re-roll the dice, replace that dice roll with a new one so long as the dice is not a skull
                         //It must also reroll at least 2 die.
