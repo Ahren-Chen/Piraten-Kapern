@@ -29,9 +29,7 @@ public class PiratenKarpen {
         //Types of rolls are [MONKEY, PARROT, GOLD, DIAMOND, SABER, SKULL] in that order starting from enum 0
 
         logger.info("Begin to play 42 games");
-        Player player1 = new Player();
-        Player player2 = new Player();
-        double[] winPercent = PlayStyle.playRandom(player1, player2, 42);
+        double[] winPercent = PlayStyle.playRandom(42);
         System.out.printf("Player 1 wins: %.2f\nPlayer 2 wins: %.2f\n", winPercent[0] * 100, winPercent[1] * 100);
 
         logger.info("Completed game");

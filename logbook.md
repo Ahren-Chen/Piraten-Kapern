@@ -39,3 +39,4 @@ Jan 18 2023:
 
 Jan 20 2023:
 * Removed some magic numbers in the player class and playstyle class for clarity.
+* Modified where I create the players to support encapsulation.

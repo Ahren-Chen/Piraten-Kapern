@@ -6,7 +6,11 @@ import org.apache.logging.log4j.Logger;
 public class PlayStyle {
     private static final Logger logger = LogManager.getLogger(PlayStyle.class);
 
-    public static double[] playRandom(Player player1, Player player2, int games) {
+    public static double[] playRandom(int games) {
+        //Create 2 new players
+        Player player1 = new Player();
+        Player player2 = new Player();
+
         //Create 2 variables to store the number of wins each player has after playing
         int player1Wins = 0;
         int player2Wins = 0;
