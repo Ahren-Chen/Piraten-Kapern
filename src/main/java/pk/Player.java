@@ -78,8 +78,9 @@ public class Player {
             return 0;
         }
 
-        //This variable will record the score of the player
+        //This variable will record the score of the player, and fullChestCheck will record how many dice are being used to generate scores
         int score = 0;
+        int fullChestCheck = 0;
 
         //The score is based on how many gold coins and diamonds the player has rolled
         score += (rolledDice.get(Faces.GOLD) + rolledDice.get(Faces.DIAMOND)) * 100;
@@ -100,11 +101,22 @@ public class Player {
         //For each face, check if any of them will have a combo bonus and add it to the score. 3 Skulls will never be counted as a bonus
         //because it wil return before it reaches this stage as seen by the return statement above
         for (Faces roll: Faces.values()) {
-
-            //I get the value from the scoreBoard using the number of faces that show up in my rolls as the key
-            score += comboScoreboard.get(
+            //I get the value from the scoreBoard using the number of faces that show up in my rolls as the key and store that in a variable
+            int faceScore = comboScoreboard.get(
                     Math.toIntExact(
                             rolledDice.get(roll)));
+
+            //If the face is used to generate any kind of score, then add the number of rolls to the fullChestCheck variable
+            if (faceScore != 0 || roll == Faces.GOLD || roll == Faces.DIAMOND) {
+                fullChestCheck += rolledDice.get(roll);
+            }
+
+            score += faceScore;
+        }
+
+        //If all 8 dice are used to generate points, add 500 points to the score
+        if (fullChestCheck == 8) {
+            score += 500;
         }
 
         logger.debug("Score: " + score);

@@ -44,3 +44,4 @@ Jan 20 2023:
 * Optimized even further how the players reroll by using maps in preparation for step 4. Version step3.2.
 * Completed F11 by implementing scoring 3 of a kind.
 * Completed F12 by implementing all the combo bonuses except full chest.
+* Completed F13 by implementing the full chest feature. 
