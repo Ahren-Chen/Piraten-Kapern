@@ -84,10 +84,27 @@ public class Player {
         //The score is based on how many gold coins and diamonds the player has rolled
         score += (rolledDice.get(Faces.GOLD) + rolledDice.get(Faces.DIAMOND)) * 100;
 
+        //I create a map that maps every possible number of identical face rolls to their desired points
+        Map<Integer, Integer> comboScoreboard = Map.of(
+                0, 0,
+                1, 0,
+                2, 0,
+                3, 100,
+                4, 200,
+                5, 500,
+                6, 1000,
+                7, 2000,
+                8, 4000
+        );
+
+        //For each face, check if any of them will have a combo bonus and add it to the score. 3 Skulls will never be counted as a bonus
+        //because it wil return before it reaches this stage as seen by the return statement above
         for (Faces roll: Faces.values()) {
-            if (rolledDice.get(roll) == 3) {
-                score += 100;
-            }
+
+            //I get the value from the scoreBoard using the number of faces that show up in my rolls as the key
+            score += comboScoreboard.get(
+                    Math.toIntExact(
+                            rolledDice.get(roll)));
         }
 
         logger.debug("Score: " + score);
