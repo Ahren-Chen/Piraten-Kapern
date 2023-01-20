@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -20,34 +21,42 @@ public class Player {
         Random bag = new Random();
         logger.debug("Initial roll: " + Arrays.toString(rolledDice));
 
-        //Create a variable to store the number of skulls that exist in the rolls
-        int skullCount = 0;
+        //Create a mapping of each face to how many times they occur in the rolls
+        Map<Object, Long> mapRolls = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
 
-        //This loop goes through the rolls and counts the number of skulls
-        for (Faces roll: rolledDice) {
-            if (roll == Faces.SKULL) {
-                skullCount++;
+        //This will put on the map faces that might not have been on the original rolls. This will ensure there is no null value when getting the key values
+        for (Faces roll: Faces.values()) {
+            if (!mapRolls.containsKey(roll)) {
+                mapRolls.put(roll, 0L);
             }
         }
 
-        //Keep looping and playing until 3 or more skulls are rolled
-        while (skullCount < 3) {
-            int rerolled = 0;
-
+        //Keep looping and playing until 3 or more skulls are rolled, or until the player wants to keep their rolls
+        while (mapRolls.get(Faces.SKULL) < 3) {
+            //50% chance the player chooses to keep their current rolls
             if (bag.nextInt(2) == 1) {
-                //This loop will go through each dice and randomly choose whether to keep it or not as long as it is not a skull
-                for (int roll = 0; roll < rolledDice.length; roll++) {
-                    if (rolledDice[roll] != Faces.SKULL) {
-                        //If it has chosen to re-roll the dice, replace that dice roll with a new one so long as the dice is not a skull
-                        //It must also reroll at least 2 die.
-                        if (rerolled < 2 || bag.nextInt(2) == 1) {
-                            rolledDice[roll] = myDice.roll();
-                            rerolled++;
-                            if (rolledDice[roll] == Faces.SKULL) {
-                                skullCount++;
-                            }
-                        }
+
+                //Randomly choose how many rerolls to do, based on how many skulls have been rolled.
+                //We need a minimum of 2 rolls, which is why I added it after randomly selecting, in case the bag
+                //randomly selected 0 or 1. This is also why I have 6 - #skulls, since it will ensure that the number of reroll
+                //is not > 8.
+                for (int rerolled = 0; rerolled < bag.nextInt(6 - Math.toIntExact(mapRolls.get(Faces.SKULL))) + 2; rerolled++) {
+
+                    //Roll a die. The face that comes up will be the face that I replace in my current rolls. This ensures it is chosen randomly
+                    Faces die = myDice.roll();
+
+                    //Reroll if it is a skull, or does not currently exist in my rolls. Worst case the expected number of rerolls is 8
+                    //and that happens when the 8 rolls are all the same face
+                    while (die == Faces.SKULL || mapRolls.get(die) == 0) {
+                        die = myDice.roll();
                     }
+
+                    //Remove a face from the mapping value
+                    mapRolls.put(die, mapRolls.get(die) - 1);
+
+                    //Actual reroll, then map an extra face to whatever the outcome is.
+                    die = myDice.roll();
+                    mapRolls.put(die, mapRolls.get(die) + 1);
                 }
             }
             //If the player has chosen to keep the current dice, then we calculate their score
@@ -58,14 +67,14 @@ public class Player {
 
         logger.debug("Final rolls: " + Arrays.toString(rolledDice));
 
-        Map<Object, Long> mapRoll = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+        //Map<Object, Long> mapRoll = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
         //Return the score of the player based on the current dice rolls
-        return calculateScore(mapRoll, skullCount);
+        return calculateScore(mapRolls);
     }
 
-    private static int calculateScore(Map<Object, Long> rolledDice, int skullCount) {
+    private static int calculateScore(Map<Object, Long> rolledDice) {
         //This method will calculate the score of a player based on what rolls they currently have.
-        if (skullCount >= 3) {
+        if (rolledDice.get(Faces.SKULL) >= 3) {
             return 0;
         }
 
