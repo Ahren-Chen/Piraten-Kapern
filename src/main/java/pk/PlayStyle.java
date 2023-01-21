@@ -26,16 +26,16 @@ public class PlayStyle {
             //Have a loop that keeps playing the game so long as both players have not yet reached 6000 points
             while (score1 < winningScore && score2 < winningScore) {
                 if (randomPlayers == 2) {
-                    score1 += player1.playCombo();
-                    score2 += player2.playCombo();
+                    score1 += player1.playRandom();
+                    score2 += player2.playRandom();
                 }
                 else if (randomPlayers == 1) {
                     score1 += player1.playRandom();
                     score2 += player2.playCombo();
                 }
                 else {
-                    score1 += player1.playRandom();
-                    score2 += player2.playRandom();
+                    score1 += player1.playCombo();
+                    score2 += player2.playCombo();
                 }
             }
 

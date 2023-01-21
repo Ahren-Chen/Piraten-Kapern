@@ -11,17 +11,16 @@ import java.util.stream.Collectors;
 public class Player {
 
     //Creating a new dice to roll and the variable rolledDice to store the results of the rolls
-    private static final Dice myDice = new Dice();
-    private static final Faces[] rolledDice = myDice.roll8();
-    private static final Random bag = new Random();
+    static Dice myDice = new Dice();
+    static Faces[] rolledDice = myDice.roll8();
+    static Random bag = new Random();
 
-    //Create a mapping of each face to how many times they occur in the rolls
-    Map<Object, Long> mapRolls = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
     private static final Logger logger = LogManager.getLogger(Player.class);
     public int playRandom() {
         //This method will play a game with the strategy of randomly rolling dice
 
-        logger.debug("Initial roll: " + Arrays.toString(rolledDice));
+        //Create a mapping of each face to how many times they occur in the rolls
+        Map<Object, Long> mapRolls = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
 
         //This will put on the map faces that might not have been on the original rolls. This will ensure there is no null value when getting the key values
         for (Faces roll: Faces.values()) {
@@ -74,9 +73,9 @@ public class Player {
     public int playCombo() {
         return 0;
     }
-    private static int calculateScore(Map<Object, Long> rolledDice) {
+    private static int calculateScore(Map<Object, Long> rolled) {
         //This method will calculate the score of a player based on what rolls they currently have.
-        if (rolledDice.get(Faces.SKULL) >= 3) {
+        if (rolled.get(Faces.SKULL) >= 3) {
             return 0;
         }
 
@@ -85,7 +84,7 @@ public class Player {
         int fullChestCheck = 0;
 
         //The score is based on how many gold coins and diamonds the player has rolled
-        score += (rolledDice.get(Faces.GOLD) + rolledDice.get(Faces.DIAMOND)) * 100;
+        score += (rolled.get(Faces.GOLD) + rolled.get(Faces.DIAMOND)) * 100;
 
         //I create a map that maps every possible number of identical face rolls to their desired points
         Map<Integer, Integer> comboScoreboard = Map.of(
@@ -106,11 +105,11 @@ public class Player {
             //I get the value from the scoreBoard using the number of faces that show up in my rolls as the key and store that in a variable
             int faceScore = comboScoreboard.get(
                     Math.toIntExact(
-                            rolledDice.get(roll)));
+                            rolled.get(roll)));
 
             //If the face is used to generate any kind of score, then add the number of rolls to the fullChestCheck variable
             if (faceScore != 0 || roll == Faces.GOLD || roll == Faces.DIAMOND) {
-                fullChestCheck += rolledDice.get(roll);
+                fullChestCheck += rolled.get(roll);
             }
 
             score += faceScore;
