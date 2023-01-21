@@ -1,6 +1,5 @@
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
-import pk.Player;
 import pk.PlayStyle;
 
 import org.apache.logging.log4j.LogManager;

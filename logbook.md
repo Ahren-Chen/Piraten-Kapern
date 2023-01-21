@@ -49,3 +49,6 @@ Jan 20 2023:
 * Allowed user input on how many random players they want and how many players using the combination strategy they want.
 * Finished F10 by implementing an option to aim only for combos for players. I also made some variables global to the player class.
 * Going to work on implementing some work of logic when choosing what to reroll instead of randomly doing it when playing for combos.
+
+Jan 21 2023:
+* Completed F14 by having the player roll based on a strategy. The player will choose a face that occurs the most amount of times, and reroll everything but that face until a face appears 3 or more times.

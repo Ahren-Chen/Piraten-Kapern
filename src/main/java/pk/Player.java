@@ -3,10 +3,7 @@ package pk;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Player {
@@ -81,9 +78,28 @@ public class Player {
 
         //Keep looping and playing until 3 or more skulls are rolled, or until the player wants to keep their rolls
         while (mapRolls.get(Faces.SKULL) < 3) {
+            //logger.debug(mapRolls);
             //If I have a face that appears more than 3 times then I do not keep rerolling
-            if (Collections.max(mapRolls.values()) <= 3) {
+            if (Collections.max(mapRolls.values()) < 3) {
+                boolean firstKeyFound = false;
+                for (Faces roll: Faces.values()) {
+                    logger.debug(mapRolls);
+                    if (roll != Faces.SKULL) {
+                        if (Objects.equals(mapRolls.get(roll), Collections.max(mapRolls.values())) && !firstKeyFound) {
+                            firstKeyFound = true;
+                            logger.trace(roll);
+                        }
+                        else {
+                            for (int rerolled = 0; rerolled < mapRolls.get(roll); rerolled++) {
+                                Faces die = myDice.roll();
+                                mapRolls.put(die, mapRolls.get(die) + 1);
+                            }
+                            mapRolls.put(roll, 0L);
 
+                        }
+                    }
+                }
+                /*
                 //Randomly choose how many rerolls to do, based on how many skulls have been rolled.
                 //We need a minimum of 2 rolls, which is why I added it after randomly selecting, in case the bag
                 //randomly selected 0 or 1. This is also why I have 6 - #skulls, since it will ensure that the number of reroll
@@ -106,7 +122,7 @@ public class Player {
                     die = myDice.roll();
                     mapRolls.put(die, mapRolls.get(die) + 1);
                     logger.debug(mapRolls);
-                }
+                }*/
             }
             //If the player has chosen to keep the current dice, then we calculate their score
             else {
