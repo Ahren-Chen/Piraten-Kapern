@@ -42,6 +42,17 @@ public class PiratenKarpen {
 
         logger.info("Begin to play 42 games");
         double[] winPercent = PlayStyle.play(42, randomPlayers);
+
+        if (randomPlayers == 2) {
+            System.out.println("Player 1 Strategy: Random\nPlayer 2 Strategy: Random");
+        }
+        else if (randomPlayers == 1) {
+            System.out.println("Player 1 Strategy: Random\nPlayer 2 Strategy: Combo");
+        }
+        else {
+            System.out.println("Player 1 Strategy: Combo\nPlayer2 Strategy: Combo");
+        }
+        
         System.out.printf("Player 1 wins: %.2f\nPlayer 2 wins: %.2f\n", winPercent[0] * 100, winPercent[1] * 100);
 
         logger.info("Completed game");
