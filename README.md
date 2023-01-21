@@ -10,11 +10,9 @@
   * To compile the project:
     * `mvn compile`
   * To run the project in trace mode:
-    * `mvn -q exec:java -Dexec.mainClass=PiratenKarpen -Dexec.args="trace"` (here, `-q` tells maven to be _quiet_)
+    * `mvn -q exec:java -Dexec.mainClass=PiratenKarpen -Dexec.args="trace [random/combo] [random/combo]"` (here, `-q` tells maven to be _quiet_)
   * To run the project normally:
-    * `mvn -q exec:java -Dexec.mainClass=PiratenKarpen -Dexec.args="normal"`
-  * To run the project with input arguments:
-    *  `mvn -q exec:java -Dexec.mainClass=PiratenKarpen -Dexec.args="arg1 arg2"`
+    * `mvn -q exec:java -Dexec.mainClass=PiratenKarpen -Dexec.args="normal [random/combo] [random/combo]"`
   * To package the project as a turn-key artefact:
     * `mvn package`
   * To run the packaged delivery:

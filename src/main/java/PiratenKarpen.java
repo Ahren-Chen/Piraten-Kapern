@@ -12,24 +12,37 @@ public class PiratenKarpen {
 
     private static final Logger logger = LogManager.getLogger(PiratenKarpen.class);
     public static void main(String[] args) {
-        if (args.length != 1) {
-            logger.error("Incorrect input arguments. Please enter enter input argument 'trace' or 'normal'");
+        if (args.length != 3) {
+            logger.error("Incorrect input arguments. Please enter mvn -q exec:java -Dexec.mainClass=PiratenKarpen -Dexec.args=\"[trace/normal] [random/combo] [random/combo]\"");
             return;
         }
-        if (Objects.equals(args[0], "normal")) {
+        if (Objects.equals(args[0].toLowerCase(), "normal")) {
             Logger logger = LogManager.getRootLogger();
             Configurator.setAllLevels(logger.getName(), Level.getLevel("ERROR"));
-        } else if (!Objects.equals(args[0], "trace")){
-            logger.error("Incorrect usage. Please enter input argument 'trace' or 'normal'");
+        }
+        else if (!Objects.equals(args[0].toLowerCase(), "trace")){
+            logger.error("Incorrect usage. Please enter mvn -q exec:java -Dexec.mainClass=PiratenKarpen -Dexec.args=\"[trace/normal] [random/combo] [random/combo]\"");
             return;
         }
+
+        int randomPlayers = 0;
+        for (int arg = 1; arg < args.length; arg++) {
+            if (Objects.equals(args[arg].toLowerCase(), "random")) {
+                randomPlayers++;
+            }
+            else if (!Objects.equals(args[arg].toLowerCase(), "combo")) {
+                logger.error("Incorrect usage. Please enter mvn -q exec:java -Dexec.mainClass=PiratenKarpen -Dexec.args=\"[trace/normal] [random/combo] [random/combo]\"");
+                return;
+            }
+        }
+
         logger.info("Game starts: ");
         System.out.println("Welcome to Piraten Karpen Simulator!");
 
         //Types of rolls are [MONKEY, PARROT, GOLD, DIAMOND, SABER, SKULL] in that order starting from enum 0
 
         logger.info("Begin to play 42 games");
-        double[] winPercent = PlayStyle.playRandom(42);
+        double[] winPercent = PlayStyle.play(42, randomPlayers);
         System.out.printf("Player 1 wins: %.2f\nPlayer 2 wins: %.2f\n", winPercent[0] * 100, winPercent[1] * 100);
 
         logger.info("Completed game");

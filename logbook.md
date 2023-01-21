@@ -45,3 +45,5 @@ Jan 20 2023:
 * Completed F11 by implementing scoring 3 of a kind.
 * Completed F12 by implementing all the combo bonuses except full chest.
 * Completed F13 by implementing the full chest feature. 
+* Changed MVPs to clarify my tasks.
+* Allowed user input on how many random players they want and how many players using the combination strategy they want.
