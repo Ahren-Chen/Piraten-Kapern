@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -72,7 +71,7 @@ public class Player {
         return calculateScore(mapRolls);
     }
 
-    public static int playCombo() {
+    public int playCombo() {
         return 0;
     }
     private static int calculateScore(Map<Object, Long> rolledDice) {
