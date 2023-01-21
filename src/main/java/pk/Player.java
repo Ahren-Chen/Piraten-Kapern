@@ -11,18 +11,18 @@ import java.util.stream.Collectors;
 
 public class Player {
 
+    //Creating a new dice to roll and the variable rolledDice to store the results of the rolls
+    private static final Dice myDice = new Dice();
+    private static final Faces[] rolledDice = myDice.roll8();
+    private static final Random bag = new Random();
+
+    //Create a mapping of each face to how many times they occur in the rolls
+    Map<Object, Long> mapRolls = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
     private static final Logger logger = LogManager.getLogger(Player.class);
     public int playRandom() {
         //This method will play a game with the strategy of randomly rolling dice
 
-        //Creating a new dice to roll and the variable rolledDice to store the results of the rolls
-        Dice myDice = new Dice();
-        Faces[] rolledDice = myDice.roll8();
-        Random bag = new Random();
         logger.debug("Initial roll: " + Arrays.toString(rolledDice));
-
-        //Create a mapping of each face to how many times they occur in the rolls
-        Map<Object, Long> mapRolls = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
 
         //This will put on the map faces that might not have been on the original rolls. This will ensure there is no null value when getting the key values
         for (Faces roll: Faces.values()) {
@@ -72,6 +72,9 @@ public class Player {
         return calculateScore(mapRolls);
     }
 
+    public static int playCombo() {
+        return 0;
+    }
     private static int calculateScore(Map<Object, Long> rolledDice) {
         //This method will calculate the score of a player based on what rolls they currently have.
         if (rolledDice.get(Faces.SKULL) >= 3) {
