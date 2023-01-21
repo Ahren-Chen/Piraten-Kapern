@@ -82,7 +82,7 @@ public class Player {
         //Keep looping and playing until 3 or more skulls are rolled, or until the player wants to keep their rolls
         while (mapRolls.get(Faces.SKULL) < 3) {
             //If I have a face that appears more than 3 times then I do not keep rerolling
-            if (Collections.max(mapRolls.entrySet(), (entry1, entry2) -> (int) (entry1.getValue() - entry2.getValue())).getValue() <= 3) {
+            if (Collections.max(mapRolls.values()) <= 3) {
 
                 //Randomly choose how many rerolls to do, based on how many skulls have been rolled.
                 //We need a minimum of 2 rolls, which is why I added it after randomly selecting, in case the bag
