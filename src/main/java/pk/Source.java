@@ -1,6 +1,6 @@
 package pk;
 
-public interface Source {
+public interface Source<T> {
     public boolean isEmpty();
-    public Object draw();
+    public T draw();
 }

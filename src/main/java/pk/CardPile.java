@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class CardPile implements Source {
+public class CardPile implements Source<Card> {
 
     //Logger
     private static final Logger logger = LogManager.getLogger(CardPile.class);
@@ -29,9 +29,38 @@ public class CardPile implements Source {
     static Random bag = new Random();
 
     public CardPile() {
-        //This is the non default start of the card pile, where I insert all cards randomly with the NOP ones
+        //When I create my card pile I want to shuffle the deck
+        shuffle();
+    }
+    @Override
+    public boolean isEmpty() {
+        return Cards.isEmpty();
+    }
 
-        //First I fill the card pile will NOP cards
+    @Override
+    public Card draw() {
+        //This method draws the card from the pile and returns it
+
+        //I check if the pile is empty, if it is then I shuffle everything for a new pile
+        if (isEmpty()) {
+            shuffle();
+        }
+
+        //I get the top most card and return it, and remove it from the pile
+        Card drawnCard = Cards.get(0);
+        Cards.remove(0);
+        return drawnCard;
+    }
+
+    private void shuffle() {
+        //This method shuffles the desk
+
+        //First I check if the pile is empty, if it is not then I empty it
+        if (!isEmpty()) {
+            Cards.clear();
+        }
+
+        //I fill the card pile will NOP cards
         for (int card = 0; card < 35; card ++) {
             Cards.add(new Card(CardFaces.NOP, 0));
         }
@@ -58,22 +87,5 @@ public class CardPile implements Source {
                 }
             }
         }
-    }
-    @Override
-    public boolean isEmpty() {
-        return Cards.isEmpty();
-    }
-
-    @Override
-    public Object draw() {
-        if (isEmpty()) {
-            shuffle();
-        }
-        return false;
-    }
-
-    private void shuffle() {
-        Random bag = new Random();
-
     }
 }
