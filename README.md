@@ -45,7 +45,6 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | x   | F12 | Implement point scoring for the rest of the combos | D | 01/20/23 | 01/20/23 |
 | x   | F13 | Implement full chest scoring combo | D | 01/20/23 | 01/20/23 |
 | x   | F14 | Have the player roll dice until they hit at least 3 of a kind by rolling based on logic | D | 01/20/23 | 01/21/23 |
-| x   | F15 | Add in a card pile where 6 out of 35 cards give 100 bonus points | S | 01/27/23 | 01/--/23 |
-| x   | F16 | Give the correct point bonus to the 6 cards for sea battle | B(F15) | 01/--/23 | 01/--/23 |
-| x   | F17 | Add in the condition that you must get a certain amount of swords to get points for sea battle | B(F16) | 01/--/23 | 01/--/23 |
-| x   | F18 | Have the player play a different strategy specifically for sea battle card | B(F15) | 01/--/23 | 01/--/23 |
+| x   | F15 | Give the correct point bonus to the 6 cards for sea battle | S | 01/27/23 | 01/--/23 |
+| x   | F16 | Add in the condition that you must get a certain amount of swords to get points for sea battle | B(F16) | 01/--/23 | 01/--/23 |
+| x   | F17 | Have the player play a different strategy specifically for sea battle card | B(F15) | 01/--/23 | 01/--/23 |

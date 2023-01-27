@@ -55,4 +55,7 @@ Jan 21 2023:
 * Fixed some bugs and also updated the final results printing to include what strategy each player is using.
 
 Jan 27 2023:
-* Started Step 5 and updated the README with new MVP's
+* Started Step 5 and updated the README with new MVP's.
+* Created card class, cardpile class, cardfaces enum, carddrawer class, drawer abstract class, and source interface to draw from.
+* Created methods so that when the card pile is created it is already shuffled.
+* Created the draw
