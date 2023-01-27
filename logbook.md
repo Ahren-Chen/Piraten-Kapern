@@ -53,3 +53,6 @@ Jan 20 2023:
 Jan 21 2023:
 * Completed F14 by having the player roll based on a strategy. The player will choose a face that occurs the most amount of times, and reroll everything but that face until a face appears 3 or more times.
 * Fixed some bugs and also updated the final results printing to include what strategy each player is using.
+
+Jan 27 2023:
+* Started Step 5 and updated the README with new MVP's
