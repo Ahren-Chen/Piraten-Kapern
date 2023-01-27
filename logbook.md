@@ -58,4 +58,5 @@ Jan 27 2023:
 * Started Step 5 and updated the README with new MVP's.
 * Created card class, cardpile class, cardfaces enum, carddrawer class, drawer abstract class, and source interface to draw from.
 * Created methods so that when the card pile is created it is already shuffled.
-* Created the draw
+* Created the draw method in the card drawer class
+* Allowed players to draw cards and add the card score to their score that round if they did not get 3 skulls
