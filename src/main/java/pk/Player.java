@@ -14,10 +14,11 @@ public class Player {
     static Random bag = new Random();
 
     private static final Logger logger = LogManager.getLogger(Player.class);
-    public int playRandom() {
+    public int playRandom(CardDrawer drawer) {
         //This method will play a game with the strategy of randomly rolling dice
 
         rolledDice = myDice.roll8();
+        Card fortuneCard = drawer.draw();
 
         //Create a mapping of each face to how many times they occur in the rolls
         Map<Object, Long> mapRolls = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
@@ -64,13 +65,15 @@ public class Player {
         }
 
         //Return the score of the player based on the current dice rolls
-        return calculateScore(mapRolls);
+        return calculateScore(mapRolls, fortuneCard);
     }
 
-    public int playCombo() {
+    public int playCombo(CardDrawer drawer) {
         //This method will play based on chasing a combo strategy
 
         rolledDice = myDice.roll8();
+        Card fortuneCard = drawer.draw();
+
         //Create a mapping of each face to how many times they occur in the rolls
         Map<Object, Long> mapRolls = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
 
@@ -113,17 +116,20 @@ public class Player {
         }
 
         //Return the score of the player based on the current dice rolls
-        return calculateScore(mapRolls);
+        return calculateScore(mapRolls, fortuneCard);
     }
-    private static int calculateScore(Map<Object, Long> rolled) {
+    private static int calculateScore(Map<Object, Long> rolled, Card fortuneCard) {
         //This method will calculate the score of a player based on what rolls they currently have.
-        if (rolled.get(Faces.SKULL) >= 3) {
-            return 0;
-        }
 
         //This variable will record the score of the player, and fullChestCheck will record how many dice are being used to generate scores
         int score = 0;
         int fullChestCheck = 0;
+
+        score += fortuneCard.points;
+
+        if (rolled.get(Faces.SKULL) >= 3) {
+            return 0;
+        }
 
         //The score is based on how many gold coins and diamonds the player has rolled
         score += (rolled.get(Faces.GOLD) + rolled.get(Faces.DIAMOND)) * 100;

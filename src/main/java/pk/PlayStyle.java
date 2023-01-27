@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 public class PlayStyle {
     private static final Logger logger = LogManager.getLogger(PlayStyle.class);
 
+    static CardDrawer drawer = new CardDrawer();
+
     public static double[] play(int games, int randomPlayers) {
         //Create 2 new players
         //If there is only 1 person playing using the combo strategy, we will assume player 1 plays randomly
@@ -26,18 +28,21 @@ public class PlayStyle {
             //Have a loop that keeps playing the game so long as both players have not yet reached 6000 points
             while (score1 < winningScore && score2 < winningScore) {
                 if (randomPlayers == 2) {
-                    score1 += player1.playRandom();
-                    score2 += player2.playRandom();
+                    score1 += player1.playRandom(drawer);
+                    score2 += player2.playRandom(drawer);
                 }
                 else if (randomPlayers == 1) {
-                    score1 += player1.playRandom();
-                    score2 += player2.playCombo();
+                    score1 += player1.playRandom(drawer);
+                    score2 += player2.playCombo(drawer);
                 }
                 else {
-                    score1 += player1.playCombo();
-                    score2 += player2.playCombo();
+                    score1 += player1.playCombo(drawer);
+                    score2 += player2.playCombo(drawer);
                 }
             }
+
+            logger.info("Game end");
+            drawer.shuffle();
 
             //Based on what score is bigger, we add a win to the respective player. If the score is equal, no player wins
             if (score1 > score2) {

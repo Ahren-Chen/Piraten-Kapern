@@ -43,6 +43,7 @@ public class CardPile implements Source<Card> {
 
         //I check if the pile is empty, if it is then I shuffle everything for a new pile
         if (isEmpty()) {
+            logger.error("Empty");
             shuffle();
         }
 
@@ -52,7 +53,7 @@ public class CardPile implements Source<Card> {
         return drawnCard;
     }
 
-    private void shuffle() {
+    public void shuffle() {
         //This method shuffles the desk
 
         //First I check if the pile is empty, if it is not then I empty it

@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardDrawer extends Drawer<Card>{
-    CardPile pile = new CardPile();
+    static CardPile pile = new CardPile();
+
+    @Override
     public Card draw() {
         return pile.draw();
-
     }
 
     @Override
@@ -17,5 +18,9 @@ public class CardDrawer extends Drawer<Card>{
             Draws.add(pile.draw());
         }
         return Draws;
+    }
+
+    public void shuffle() {
+        pile.shuffle();
     }
 }
