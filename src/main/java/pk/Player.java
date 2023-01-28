@@ -85,6 +85,13 @@ public class Player {
             }
         }
 
+        //At the very end of rolling randomly, I add all the parrots to the monkey rolls and remove the parrots to get the correct combo bonus
+        //when calculating score
+        if (fortuneCard.face == CardFaces.MonkeyBusiness) {
+            mapRolls.put(Faces.MONKEY, mapRolls.get(Faces.MONKEY) + mapRolls.get(Faces.PARROT));
+            mapRolls.put(Faces.PARROT, 0L);
+        }
+
         //Return the score of the player based on the current dice rolls
         return calculateScore(mapRolls, fortuneCard);
     }
@@ -100,6 +107,13 @@ public class Player {
 
         //Keep looping and playing until 3 or more skulls are rolled, or until the player wants to keep their rolls
         while (mapRolls.get(Faces.SKULL) < 3) {
+
+            //If the fortune card is monkey business, then I add all parrots to the monkey roll and pretend I only have monkeys and no parrots
+            //I do this at the start of every decision of whether to reroll or not
+            if (fortuneCard.face == CardFaces.MonkeyBusiness) {
+                mapRolls.put(Faces.MONKEY, mapRolls.get(Faces.MONKEY) + mapRolls.get(Faces.PARROT));
+                mapRolls.put(Faces.PARROT, 0L);
+            }
 
             //If I have a face that appears more than 3 times then I do not keep rerolling
             if (Collections.max(mapRolls.values()) < 3) {
@@ -213,7 +227,7 @@ public class Player {
         //First check if there are 3 skulls in the rolls
         if (rolled.get(Faces.SKULL) >= 3) {
 
-            //If there are, then check whether or not the players had a sea battle this round
+            //If there are, then check whether the players had a sea battle this round
             if (cardToGame.containsKey(fortuneCard.face) && Objects.equals(cardToGame.get(fortuneCard.face)[0], "SeaBattle")) {
 
                 //Then check if the number of sabers rolled matches the number of sabers needed for the sea battle
@@ -235,9 +249,8 @@ public class Player {
         }
 
         //Another scenario is that the player was in a sea battle and won, in which case they get the amount of points on the card
-        else if (cardToGame.containsKey(fortuneCard.face) && Objects.equals(cardToGame.get(fortuneCard.face)[0], "SeaBattle")){
-            score += fortuneCard.points;
-        }
+        //This will also just add the amount of points onto the score as long as they survive, since only sea battle adds points right now
+        score += fortuneCard.points;
 
         //The score is based on how many gold coins and diamonds the player has rolled
         score += (rolled.get(Faces.GOLD) + rolled.get(Faces.DIAMOND)) * 100;

@@ -28,6 +28,7 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 * The combo player will play be keeping all gold and diamond coins, and also try to hit 3 of a kind with the rest of the dice.
 * The random player will have a 50/50 chance to reroll at all, and then it will randomly select how many die to reroll with a minimum of 2.
 * A single game will end when at least 1 player reaches 6000 points or more.
+* When the player draws a monkey business card, they will treat parrots the same as a monkey. They will not change their strategy, and just try to hit the most amount of combos while treating parrots as monkeys (If they are playing combo). They will also still keep gold and diamond rolls.
 
 ## Feature Backlog
 
@@ -57,5 +58,5 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | x   | F15 | Give the correct point bonus to the 6 cards for sea battle | D | 01/27/23 | 01/27/23 |
 | x   | F16 | Add in the condition that you must get a certain amount of swords to get points for sea battle | D | 01/27/23 | 01/27/23 |
 | x   | F17 | Have the player play a different strategy specifically for sea battle card | D | 01/27/23 | 01/27/23 |
-| x   | F18 | Implement the monkey business card, but it just gives 100 points for now | S | 01/28/23 | 01/--/23 |
-| x   | F19 | Have the player count monkeys and parrots as the same card | B(F18) | 01/--/23 | 01/--/23 |
+| x   | F18 | Implement the monkey business card, but it just gives 0 points for now | D | 01/28/23 | 01/28/23 |
+| x   | F19 | Have the player count monkeys and parrots as the same card | D | 01/28/23 | 01/28/23 |

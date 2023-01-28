@@ -68,4 +68,6 @@ Jan 27 2023:
 Jan 28 2023:
 * Clarified more rules and notes in the README.
 * Started to work on step 6 which is including the monkey business card.
-* Include new MVP's in the README
+* Include new MVP's in the README.
+* Included 4 monkey business cards into the deck.
+* Finished F18 and F19. If a monkey business card is drawn, the random player will convert all parrots to monkeys before calculating score, while the combo player will do that before rerolling every time and try to maximize combos still.
