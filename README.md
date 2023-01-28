@@ -23,7 +23,7 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 ## Game Notes
 * Each player draws a card and rolls dice based on their strategy.
 * If 2 players score the same amount of final points, no one gets the win.
-* If a player is in a sea battle, and they end up getting the required amount of sabers but still has 3 skulls: No points are deducted, but not points are earned either.
+* If a player is in a sea battle, and they end up getting the required amount of sabers but still has 3 skulls: No points are deducted, but not points are earned either. The rulebook did not account for this specific situation, so I took my own liberty and decided this.
 * The combo player will play be keeping all gold and diamond coins, and also try to hit 3 of a kind with the rest of the dice.
 
 ## Feature Backlog
