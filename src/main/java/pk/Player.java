@@ -11,8 +11,11 @@ public class Player {
     //Creating a new dice to roll and the variable rolledDice to store the results of the rolls
     static Dice myDice = new Dice();
     static Faces[] rolledDice;
+
+    //Random bag variable to randomly roll things
     static Random bag = new Random();
 
+    //This map stores the translation between the cards and their effect on the game
     private static final Map<CardFaces, String[]> cardToGame = Map.of(
             CardFaces.SeaBattle2, new String[]{"SeaBattle", "2"},
             CardFaces.SeaBattle3, new String[] {"SeaBattle", "3"},
@@ -22,6 +25,8 @@ public class Player {
     private static final Logger logger = LogManager.getLogger(Player.class);
 
     private Map<Object, Long> mappingRolls(Faces[] rolledDice) {
+        //This method stores the rolls into a mapping of each face and their respective appearance in the rolls
+
         //Create a mapping of each face to how many times they occur in the rolls
         Map<Object, Long> mapRolls = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
 
@@ -32,6 +37,7 @@ public class Player {
             }
         }
 
+        //Return the map back
         return mapRolls;
     }
     public int playRandom(Card fortuneCard) {
@@ -46,14 +52,16 @@ public class Player {
             //50% chance the player chooses to keep their current rolls
             if (bag.nextInt(2) == 1) {
 
+                int howManyReRolls = 0;
+
+                //Roll a die. The face that comes up will be the face that I replace in my current rolls. This ensures it is chosen randomly
+                Faces die = myDice.roll();
+
                 //Randomly choose how many rerolls to do, based on how many skulls have been rolled.
                 //We need a minimum of 2 rolls, which is why I added it after randomly selecting, in case the bag
                 //randomly selected 0 or 1. This is also why I have 6 - #skulls, since it will ensure that the number of reroll
                 //is not > 8.
                 for (int rerolled = 0; rerolled < bag.nextInt(6 - Math.toIntExact(mapRolls.get(Faces.SKULL))) + 2; rerolled++) {
-
-                    //Roll a die. The face that comes up will be the face that I replace in my current rolls. This ensures it is chosen randomly
-                    Faces die = myDice.roll();
 
                     //Reroll if it is a skull, or does not currently exist in my rolls. Worst case the expected number of rerolls is 8
                     //and that happens when the 8 rolls are all the same face
@@ -63,8 +71,10 @@ public class Player {
 
                     //Remove a face from the mapping value
                     mapRolls.put(die, mapRolls.get(die) - 1);
+                    howManyReRolls++;
+                }
 
-                    //Actual reroll, then map an extra face to whatever the outcome is.
+                for (int roll = 0; roll < howManyReRolls; roll++) {
                     die = myDice.roll();
                     mapRolls.put(die, mapRolls.get(die) + 1);
                 }
@@ -86,7 +96,7 @@ public class Player {
 
         Map<Object, Long> mapRolls = mappingRolls(rolledDice);
 
-        logger.error("Initial: " + mapRolls);
+        logger.debug("Initial: " + mapRolls);
 
         //Keep looping and playing until 3 or more skulls are rolled, or until the player wants to keep their rolls
         while (mapRolls.get(Faces.SKULL) < 3) {
@@ -102,7 +112,7 @@ public class Player {
                 //I loop through every face in the map
                 for (Faces roll: Faces.values()) {
 
-                    logger.error(mapRolls + " 1 " + roll);
+                    logger.debug(mapRolls + " 1 " + roll);
 
                     //If the face is not a skull
                     if (roll != Faces.SKULL) {
@@ -116,23 +126,29 @@ public class Player {
                             firstKeyFound = true;
                             logger.trace(roll);
                         }
-                        else {
+                        else if (roll != Faces.DIAMOND && roll != Faces.GOLD){
 
                             //If the first key has been found, or the face appears less than the maximum amount of faces that appeared
-                            //then I loop through as many die that rolled this face
-                            for (int rerolled = 0; rerolled < mapRolls.get(roll); rerolled++) {
-
-                                //And reroll them, then add the results to the map and subtract from the current amount
-                                Faces die = myDice.roll();
-                                mapRolls.put(die, mapRolls.get(die) + 1);
-                                mapRolls.put(roll, mapRolls.get(roll) - 1);
-                            }
-                            /*
+                            //then I keep track of how many dice I need to roll and remove the die from the board
+                            //I also keep the roll if it is a diamond or gold
                             howManyReRolls += mapRolls.get(roll);
-                            mapRolls.put(roll, 0L);*/
+                            mapRolls.put(roll, 0L);
 
                         }
                     }
+                }
+
+                //If I end up in the rare case of 2 gold, 2 diamond, 2 skulls, and 2 random face and the program designates the random
+                //face as the face to keep, it will find 0 to reroll, in that case just end the loop.
+                if (howManyReRolls == 0) {
+                    break;
+                }
+
+                //Reroll however many dice that I removed from the board and add them to the map all at once
+                for (int roll = 0; roll < howManyReRolls; roll++) {
+                    Faces die = myDice.roll();
+                    mapRolls.put(die, mapRolls.get(die) + 1);
+
                 }
             }
             //If the player has chosen to keep the current dice, then we calculate their score
@@ -141,41 +157,49 @@ public class Player {
             }
         }
 
-        logger.error(mapRolls + " 2");
+        logger.debug(mapRolls + " 2");
         //Return the score of the player based on the current dice rolls
         return calculateScore(mapRolls, fortuneCard);
     }
 
     public int seaBattle(int sabers, Card fortuneCard){
+        //This method is the strategy the players use when they are in a sea battle
+
+        //First I get 8 dice rolls
         rolledDice = myDice.roll8();
 
+        //Map the faces to the rolls
         Map<Object, Long> mapRolls = mappingRolls(rolledDice);
 
         logger.info("SeaBattle");
         logger.debug(mapRolls);
 
-        while (mapRolls.get(Faces.SKULL) < 3) {
-            if (mapRolls.get(Faces.SABER) < sabers) {
-                for (Faces roll: Faces.values()) {
+        //Keep playing the game so long as there is less than 3 skulls, or the number of sabers have been met
+        while (mapRolls.get(Faces.SKULL) < 3 && mapRolls.get(Faces.SABER) < sabers) {
+            int howManyReRolls = 0;
 
-                    logger.debug(mapRolls + " 1 " + sabers);
+            //For every face possible
+            for (Faces roll: Faces.values()) {
 
-                    if (roll != Faces.SKULL && roll != Faces.SABER) {
-                        for (int rerolled = 0; rerolled < mapRolls.get(roll); rerolled++) {
+                logger.debug(mapRolls + " 1 " + sabers);
 
-                            //And reroll them, then add the results to the map and subtract from the current amount
-                            Faces die = myDice.roll();
-                            mapRolls.put(die, mapRolls.get(die) + 1);
-                            mapRolls.put(roll, mapRolls.get(roll) - 1);
-                        }
-                    }
+                //If the face is not a skull or a saber, if they are then do not touch them
+                if (roll != Faces.SKULL && roll != Faces.SABER) {
+
+                    //Then I remove those die from the board and into my "hand" and set the number of those die on the map to 0
+                    //This removes the possibility that I reroll the same die twice and count it as 2 rolls in the same turn
+                    howManyReRolls += mapRolls.get(roll);
+                    mapRolls.put(roll, 0L);
                 }
             }
-            else {
-                break;
+            //I reroll as many as indicated and add the results to the map
+            for (int roll = 0; roll < howManyReRolls; roll++) {
+                Faces die = myDice.roll();
+                mapRolls.put(die, mapRolls.get(die) + 1);
             }
         }
 
+        //Return the calculated score of the dice rolls along with the fortune card
         logger.debug(mapRolls + " 2");
         return calculateScore(mapRolls, fortuneCard);
     }
@@ -186,20 +210,32 @@ public class Player {
         int score = 0;
         int fullChestCheck = 0;
 
+        //First check if there are 3 skulls in the rolls
         if (rolled.get(Faces.SKULL) >= 3) {
+
+            //If there are, then check whether or not the players had a sea battle this round
             if (cardToGame.containsKey(fortuneCard.face) && Objects.equals(cardToGame.get(fortuneCard.face)[0], "SeaBattle")) {
+
+                //Then check if the number of sabers rolled matches the number of sabers needed for the sea battle
                 if (rolled.get(Faces.SABER) == Integer.parseInt(cardToGame.get(fortuneCard.face)[1])) {
-                    logger.error("Score: " + score);
+                    logger.debug("Score: " + score);
+
+                    //If they do, just return the score
                     return score;
                 }
 
-                logger.error("Score: " + (score - fortuneCard.points));
+                //If the # of saber rolls do not match the number needed, then subtract the score
+                logger.debug("Score: " + (score - fortuneCard.points));
                 return score - fortuneCard.points;
             }
-            logger.error("Score: " + score);
+
+            //If the player was not in a sea battle, then just reuturn the score of 0
+            logger.debug("Score: " + score);
             return score;
         }
-        else {
+
+        //Another scenario is that the player was in a sea battle and won, in which case they get the amount of points on the card
+        else if (cardToGame.containsKey(fortuneCard.face) && Objects.equals(cardToGame.get(fortuneCard.face)[0], "SeaBattle")){
             score += fortuneCard.points;
         }
 
@@ -240,7 +276,7 @@ public class Player {
             score += 500;
         }
 
-        logger.error("Score: " + score);
+        logger.debug("Score: " + score);
         return score;
     }
 }

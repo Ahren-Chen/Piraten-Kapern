@@ -63,3 +63,4 @@ Jan 27 2023:
 * Completed condition that you must get a certain number of sabers in order to win the sea battle
 * Completed strategy for player to use in case they are in a sea battle
 * Found error when reroll dice (When I reroll a type of die, the result is added onto the other die and is counted as part of the original. Messes with how many die of that face I am supposed to reroll)
+* Fixed bugs and changed the playstyle of combo players to not reroll gold and diamond rolls.
