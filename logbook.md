@@ -64,3 +64,8 @@ Jan 27 2023:
 * Completed strategy for player to use in case they are in a sea battle
 * Found error when reroll dice (When I reroll a type of die, the result is added onto the other die and is counted as part of the original. Messes with how many die of that face I am supposed to reroll)
 * Fixed bugs and changed the playstyle of combo players to not reroll gold and diamond rolls.
+
+Jan 28 2023:
+* Clarified more rules and notes in the README.
+* Started to work on step 6 which is including the monkey business card.
+* Include new MVP's in the README

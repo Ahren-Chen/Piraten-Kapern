@@ -10,7 +10,7 @@ public class PlayStyle {
     private static final Logger logger = LogManager.getLogger(PlayStyle.class);
 
     private static final Map<CardFaces, String[]> cardToGameplay = Map.of(
-            CardFaces.SeaBattle2, new String[]{"SeaBattle", "2"},
+            CardFaces.SeaBattle2, new String[] {"SeaBattle", "2"},
             CardFaces.SeaBattle3, new String[] {"SeaBattle", "3"},
             CardFaces.SeaBattle4, new String[] {"SeaBattle", "4"}
     );
