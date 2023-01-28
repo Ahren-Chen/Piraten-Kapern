@@ -13,13 +13,15 @@ public class Player {
     static Faces[] rolledDice;
     static Random bag = new Random();
 
+    private static final Map<CardFaces, String[]> cardToGame = Map.of(
+            CardFaces.SeaBattle2, new String[]{"SeaBattle", "2"},
+            CardFaces.SeaBattle3, new String[] {"SeaBattle", "3"},
+            CardFaces.SeaBattle4, new String[] {"SeaBattle", "4"}
+    );
+
     private static final Logger logger = LogManager.getLogger(Player.class);
-    public int playRandom(CardDrawer drawer) {
-        //This method will play a game with the strategy of randomly rolling dice
 
-        rolledDice = myDice.roll8();
-        Card fortuneCard = drawer.draw();
-
+    private Map<Object, Long> mappingRolls(Faces[] rolledDice) {
         //Create a mapping of each face to how many times they occur in the rolls
         Map<Object, Long> mapRolls = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
 
@@ -29,6 +31,15 @@ public class Player {
                 mapRolls.put(roll, 0L);
             }
         }
+
+        return mapRolls;
+    }
+    public int playRandom(Card fortuneCard) {
+        //This method will play a game with the strategy of randomly rolling dice
+
+        rolledDice = myDice.roll8();
+
+        Map<Object, Long> mapRolls = mappingRolls(rolledDice);
 
         //Keep looping and playing until 3 or more skulls are rolled, or until the player wants to keep their rolls
         while (mapRolls.get(Faces.SKULL) < 3) {
@@ -68,42 +79,57 @@ public class Player {
         return calculateScore(mapRolls, fortuneCard);
     }
 
-    public int playCombo(CardDrawer drawer) {
+    public int playCombo(Card fortuneCard) {
         //This method will play based on chasing a combo strategy
 
         rolledDice = myDice.roll8();
-        Card fortuneCard = drawer.draw();
 
-        //Create a mapping of each face to how many times they occur in the rolls
-        Map<Object, Long> mapRolls = Arrays.stream(rolledDice).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+        Map<Object, Long> mapRolls = mappingRolls(rolledDice);
 
-        //This will put on the map faces that might not have been on the original rolls. This will ensure there is no null value when getting the key values
-        for (Faces roll: Faces.values()) {
-            if (!mapRolls.containsKey(roll)) {
-                mapRolls.put(roll, 0L);
-            }
-        }
-        logger.debug(mapRolls);
+        logger.error("Initial: " + mapRolls);
 
         //Keep looping and playing until 3 or more skulls are rolled, or until the player wants to keep their rolls
         while (mapRolls.get(Faces.SKULL) < 3) {
-            //logger.debug(mapRolls);
+
             //If I have a face that appears more than 3 times then I do not keep rerolling
             if (Collections.max(mapRolls.values()) < 3) {
+
+                //This variable will turn to true once the program has found the first Face that appears the most amount of times
+                //and reroll every face that is not that one
                 boolean firstKeyFound = false;
+                int howManyReRolls = 0;
+
+                //I loop through every face in the map
                 for (Faces roll: Faces.values()) {
-                    logger.debug(mapRolls);
+
+                    logger.error(mapRolls + " 1 " + roll);
+
+                    //If the face is not a skull
                     if (roll != Faces.SKULL) {
+
+                        //I check whether the first key has been found, if it has not and the face appears as many times
+                        //as the maximum amount of faces that appears in the rolls then...
                         if (Objects.equals(mapRolls.get(roll), Collections.max(mapRolls.values())) && !firstKeyFound) {
+
+                            //I set the first key found to be true, so that it will reroll all other faces even if they
+                            //Have the same number of faces currently
                             firstKeyFound = true;
                             logger.trace(roll);
                         }
                         else {
+
+                            //If the first key has been found, or the face appears less than the maximum amount of faces that appeared
+                            //then I loop through as many die that rolled this face
                             for (int rerolled = 0; rerolled < mapRolls.get(roll); rerolled++) {
+
+                                //And reroll them, then add the results to the map and subtract from the current amount
                                 Faces die = myDice.roll();
                                 mapRolls.put(die, mapRolls.get(die) + 1);
+                                mapRolls.put(roll, mapRolls.get(roll) - 1);
                             }
-                            mapRolls.put(roll, 0L);
+                            /*
+                            howManyReRolls += mapRolls.get(roll);
+                            mapRolls.put(roll, 0L);*/
 
                         }
                     }
@@ -115,7 +141,42 @@ public class Player {
             }
         }
 
+        logger.error(mapRolls + " 2");
         //Return the score of the player based on the current dice rolls
+        return calculateScore(mapRolls, fortuneCard);
+    }
+
+    public int seaBattle(int sabers, Card fortuneCard){
+        rolledDice = myDice.roll8();
+
+        Map<Object, Long> mapRolls = mappingRolls(rolledDice);
+
+        logger.info("SeaBattle");
+        logger.debug(mapRolls);
+
+        while (mapRolls.get(Faces.SKULL) < 3) {
+            if (mapRolls.get(Faces.SABER) < sabers) {
+                for (Faces roll: Faces.values()) {
+
+                    logger.debug(mapRolls + " 1 " + sabers);
+
+                    if (roll != Faces.SKULL && roll != Faces.SABER) {
+                        for (int rerolled = 0; rerolled < mapRolls.get(roll); rerolled++) {
+
+                            //And reroll them, then add the results to the map and subtract from the current amount
+                            Faces die = myDice.roll();
+                            mapRolls.put(die, mapRolls.get(die) + 1);
+                            mapRolls.put(roll, mapRolls.get(roll) - 1);
+                        }
+                    }
+                }
+            }
+            else {
+                break;
+            }
+        }
+
+        logger.debug(mapRolls + " 2");
         return calculateScore(mapRolls, fortuneCard);
     }
     private static int calculateScore(Map<Object, Long> rolled, Card fortuneCard) {
@@ -125,10 +186,21 @@ public class Player {
         int score = 0;
         int fullChestCheck = 0;
 
-        score += fortuneCard.points;
-
         if (rolled.get(Faces.SKULL) >= 3) {
-            return 0;
+            if (cardToGame.containsKey(fortuneCard.face) && Objects.equals(cardToGame.get(fortuneCard.face)[0], "SeaBattle")) {
+                if (rolled.get(Faces.SABER) == Integer.parseInt(cardToGame.get(fortuneCard.face)[1])) {
+                    logger.error("Score: " + score);
+                    return score;
+                }
+
+                logger.error("Score: " + (score - fortuneCard.points));
+                return score - fortuneCard.points;
+            }
+            logger.error("Score: " + score);
+            return score;
+        }
+        else {
+            score += fortuneCard.points;
         }
 
         //The score is based on how many gold coins and diamonds the player has rolled
@@ -168,7 +240,7 @@ public class Player {
             score += 500;
         }
 
-        logger.debug("Score: " + score);
+        logger.error("Score: " + score);
         return score;
     }
 }

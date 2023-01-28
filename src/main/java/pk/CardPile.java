@@ -43,7 +43,7 @@ public class CardPile implements Source<Card> {
 
         //I check if the pile is empty, if it is then I shuffle everything for a new pile
         if (isEmpty()) {
-            logger.error("Empty");
+            logger.info("Empty");
             shuffle();
         }
 

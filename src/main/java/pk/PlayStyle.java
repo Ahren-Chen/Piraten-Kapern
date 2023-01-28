@@ -3,9 +3,17 @@ package pk;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Map;
+import java.util.Objects;
+
 public class PlayStyle {
     private static final Logger logger = LogManager.getLogger(PlayStyle.class);
 
+    private static final Map<CardFaces, String[]> cardToGameplay = Map.of(
+            CardFaces.SeaBattle2, new String[]{"SeaBattle", "2"},
+            CardFaces.SeaBattle3, new String[] {"SeaBattle", "3"},
+            CardFaces.SeaBattle4, new String[] {"SeaBattle", "4"}
+    );
     static CardDrawer drawer = new CardDrawer();
 
     public static double[] play(int games, int randomPlayers) {
@@ -27,17 +35,24 @@ public class PlayStyle {
 
             //Have a loop that keeps playing the game so long as both players have not yet reached 6000 points
             while (score1 < winningScore && score2 < winningScore) {
-                if (randomPlayers == 2) {
-                    score1 += player1.playRandom(drawer);
-                    score2 += player2.playRandom(drawer);
+                Card fortuneCard = drawer.draw();
+
+                if (cardToGameplay.containsKey(fortuneCard.face) && Objects.equals(cardToGameplay.get(fortuneCard.face)[0], "SeaBattle")) {
+                    int sabersNeeded = Integer.parseInt(cardToGameplay.get(fortuneCard.face)[1]);
+                    score1 += player1.seaBattle(sabersNeeded, fortuneCard);
+                    score2 += player2.seaBattle(sabersNeeded, fortuneCard);
+                }
+                else if (randomPlayers == 2) {
+                    score1 += player1.playRandom(fortuneCard);
+                    score2 += player2.playRandom(fortuneCard);
                 }
                 else if (randomPlayers == 1) {
-                    score1 += player1.playRandom(drawer);
-                    score2 += player2.playCombo(drawer);
+                    score1 += player1.playRandom(fortuneCard);
+                    score2 += player2.playCombo(fortuneCard);
                 }
                 else {
-                    score1 += player1.playCombo(drawer);
-                    score2 += player2.playCombo(drawer);
+                    score1 += player1.playCombo(fortuneCard);
+                    score2 += player2.playCombo(fortuneCard);
                 }
             }
 

@@ -41,7 +41,7 @@ public class PiratenKarpen {
         //Types of rolls are [MONKEY, PARROT, GOLD, DIAMOND, SABER, SKULL] in that order starting from enum 0
 
         logger.info("Begin to play 42 games");
-        double[] winPercent = PlayStyle.play(42, randomPlayers);
+        double[] winPercent = PlayStyle.play(2, randomPlayers);
 
         if (randomPlayers == 2) {
             System.out.println("Player 1 Strategy: Random\nPlayer 2 Strategy: Random");
@@ -50,7 +50,7 @@ public class PiratenKarpen {
             System.out.println("Player 1 Strategy: Random\nPlayer 2 Strategy: Combo");
         }
         else {
-            System.out.println("Player 1 Strategy: Combo\nPlayer2 Strategy: Combo");
+            System.out.println("Player 1 Strategy: Combo\nPlayer 2 Strategy: Combo");
         }
         
         System.out.printf("Player 1 wins: %.2f\nPlayer 2 wins: %.2f\n", winPercent[0] * 100, winPercent[1] * 100);
