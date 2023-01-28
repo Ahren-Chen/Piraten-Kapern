@@ -22,7 +22,8 @@ public class CardPile implements Source<Card> {
             new Card(CardFaces.NOP, 0), 29,
             new Card(CardFaces.SeaBattle2, 200), 2,
             new Card(CardFaces.SeaBattle3, 500), 2,
-            new Card(CardFaces.SeaBattle4, 1000), 2
+            new Card(CardFaces.SeaBattle4, 1000), 2,
+            new Card(CardFaces.MonkeyBusiness, 0), 4
     );
 
     //Random variable
