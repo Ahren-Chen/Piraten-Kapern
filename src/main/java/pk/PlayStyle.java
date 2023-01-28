@@ -10,9 +10,11 @@ public class PlayStyle {
     private static final Logger logger = LogManager.getLogger(PlayStyle.class);
 
     private static final Map<CardFaces, String[]> cardToGameplay = Map.of(
+            CardFaces.NOP, new String[] {"N/A"},
             CardFaces.SeaBattle2, new String[] {"SeaBattle", "2"},
             CardFaces.SeaBattle3, new String[] {"SeaBattle", "3"},
-            CardFaces.SeaBattle4, new String[] {"SeaBattle", "4"}
+            CardFaces.SeaBattle4, new String[] {"SeaBattle", "4"},
+            CardFaces.MonkeyBusiness, new String[] {"N/A"}
     );
     static CardDrawer drawer = new CardDrawer();
 
@@ -35,27 +37,76 @@ public class PlayStyle {
 
             //Have a loop that keeps playing the game so long as both players have not yet reached 6000 points
             while (score1 < winningScore && score2 < winningScore) {
-                Card fortuneCard = drawer.draw();
 
-                if (cardToGameplay.containsKey(fortuneCard.face) && Objects.equals(cardToGameplay.get(fortuneCard.face)[0], "SeaBattle")) {
-                    int sabersNeeded = Integer.parseInt(cardToGameplay.get(fortuneCard.face)[1]);
-                    score1 += player1.seaBattle(sabersNeeded, fortuneCard);
-                    score2 += player2.seaBattle(sabersNeeded, fortuneCard);
+                //At the start of the round, draw a card for each player
+                Card[] fortuneCards = {drawer.draw(), drawer.draw()};
+
+                //Check whether the first player is in a sea battle
+                if (Objects.equals(cardToGameplay.get(fortuneCards[0].face)[0], "SeaBattle")) {
+
+                    //If the first player is, then calculate the number of sabers needed and have the first player play a sea battle
+                    int sabersNeeded = Integer.parseInt(cardToGameplay.get(fortuneCards[0].face)[1]);
+                    score1 += player1.seaBattle(sabersNeeded, fortuneCards[0]);
+
+                    //Then check whether the second player is in a sea battle
+                    if (Objects.equals(cardToGameplay.get(fortuneCards[1].face)[0], "SeaBattle")) {
+
+                        //If they are, then also play a sea battle with a the calculated amount of sabers needed
+                        sabersNeeded = Integer.parseInt(cardToGameplay.get(fortuneCards[1].face)[1]);
+                        score2 += player2.seaBattle(sabersNeeded, fortuneCards[1]);
+                    }
+
+                    //If they are not part of a sea battle, then check how many random players there are.
+                    //If both players are random, then play random
+                    else if (randomPlayers == 2) {
+                        score2 += player2.playRandom(fortuneCards[1]);
+                    }
+
+                    //Otherwise play combo, since the game is set up so that the first player always plays random and the second player always plays combo
+                    //If there is one of each
+                    else {
+                        score2 += player2.playCombo(fortuneCards[1]);
+                    }
                 }
+
+                //Check whether the second player is in a sea battle or not
+                else if (Objects.equals(cardToGameplay.get(fortuneCards[1].face)[0], "SeaBattle")) {
+
+                    //If they are, then calculate the number of sabers needed and play a sea battle
+                    int sabersNeeded = Integer.parseInt(cardToGameplay.get(fortuneCards[1].face)[1]);
+                    score2 += player2.seaBattle(sabersNeeded, fortuneCards[1]);
+
+                    //Check whether both players are playing combo, if they are then the first player plays combo.
+                    if (randomPlayers == 0) {
+                        score1 += player1.playCombo(fortuneCards[0]);
+                    }
+
+                    //Otherwise play random, since the first player always plays random if there is at least 1 random player
+                    else {
+                        score1 += player1.playRandom(fortuneCards[0]);
+                    }
+                }
+
+                //If both players are playing random
                 else if (randomPlayers == 2) {
-                    score1 += player1.playRandom(fortuneCard);
-                    score2 += player2.playRandom(fortuneCard);
+                    score1 += player1.playRandom(fortuneCards[0]);
+                    score2 += player2.playRandom(fortuneCards[1]);
                 }
+
+                //If only 1 player is playing randomly
                 else if (randomPlayers == 1) {
-                    score1 += player1.playRandom(fortuneCard);
-                    score2 += player2.playCombo(fortuneCard);
+                    score1 += player1.playRandom(fortuneCards[0]);
+                    score2 += player2.playCombo(fortuneCards[1]);
                 }
+
+                //If both players are playing combo
                 else {
-                    score1 += player1.playCombo(fortuneCard);
-                    score2 += player2.playCombo(fortuneCard);
+                    score1 += player1.playCombo(fortuneCards[0]);
+                    score2 += player2.playCombo(fortuneCards[1]);
                 }
             }
 
+            //After each game, shuffle the deck to a fresh one
             logger.info("Game end");
             drawer.shuffle();
 

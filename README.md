@@ -29,6 +29,7 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 * The random player will have a 50/50 chance to reroll at all, and then it will randomly select how many die to reroll with a minimum of 2.
 * A single game will end when at least 1 player reaches 6000 points or more.
 * When the player draws a monkey business card, they will treat parrots the same as a monkey. They will not change their strategy, and just try to hit the most amount of combos while treating parrots as monkeys (If they are playing combo). They will also still keep gold and diamond rolls.
+* If there are 2 different strategies (random and combo), then the first player will always play random, and the second player will always play combo.
 
 ## Feature Backlog
 
