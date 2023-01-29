@@ -9,10 +9,8 @@
     * `mvn clean`
   * To compile the project:
     * `mvn compile`
-  * To run the project in trace mode:
-    * `mvn -q exec:java -Dexec.mainClass=PiratenKarpen -Dexec.args="trace [random/combo] [random/combo]"` (here, `-q` tells maven to be _quiet_)
-  * To run the project normally:
-    * `mvn -q exec:java -Dexec.mainClass=PiratenKarpen -Dexec.args="normal [random/combo] [random/combo]"`
+  * To run the project:
+    * `mvn -q exec:java -Dexec.mainClass=PiratenKarpen -Dexec.args="<Insert arguments here>"` (here, `-q` tells maven to be _quiet_)
   * To package the project as a turn-key artefact:
     * `mvn package`
   * To run the packaged delivery:
@@ -30,6 +28,8 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 * A single game will end when at least 1 player reaches 6000 points or more.
 * When the player draws a monkey business card, they will treat parrots the same as a monkey. They will not change their strategy, and just try to hit the most amount of combos while treating parrots as monkeys (If they are playing combo). They will also still keep gold and diamond rolls.
 * If there are 2 different strategies (random and combo), then the first player will always play random, and the second player will always play combo.
+* The default setting for both players is to play combo. To change this, give a valid input for RandomPlayers.
+* All invalid command line arguments will be ignored
 
 ## Feature Backlog
 
@@ -61,3 +61,4 @@ Remark: **We are assuming here you are using a _real_ shell (e.g., anything but 
 | x   | F17 | Have the player play a different strategy specifically for sea battle card | D | 01/27/23 | 01/27/23 |
 | x   | F18 | Implement the monkey business card, but it just gives 0 points for now | D | 01/28/23 | 01/28/23 |
 | x   | F19 | Have the player count monkeys and parrots as the same card | D | 01/28/23 | 01/28/23 |
+| x   | F20 | Integrate Apache Commons CLI for getting command line arguments | D | 01/29/23 | 01/29/23 |

@@ -72,3 +72,6 @@ Jan 28 2023:
 * Included 4 monkey business cards into the deck.
 * Finished F18 and F19. If a monkey business card is drawn, the random player will convert all parrots to monkeys before calculating score, while the combo player will do that before rerolling every time and try to maximize combos still.
 * Fixed a bug where both players are drawing the same card, and commented.
+
+Jan 29 2023:
+* Started to work on adding in apache commons cli for command line arguments
